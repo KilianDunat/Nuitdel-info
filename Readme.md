@@ -1,5 +1,9 @@
 # Vagrant-Docker
 
+## Attention
+
+Cette vm vagrant est disponible que pour virtualbox
+
 ## Installation
 
 Veillez à bien faire un vagrant up dans un dossier totalement à part et vierge. Dans ce dossier, vous déposerez le fichier Docker-compose.yml
