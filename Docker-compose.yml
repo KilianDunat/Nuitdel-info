@@ -39,6 +39,11 @@ services:
       - 8080:8080
     restart: always
     container_name: "adminer"
+    
+    node.js:
+    image: node:latest
+    container_name: node.js
+    restart: always
 
 networks:
     default:
