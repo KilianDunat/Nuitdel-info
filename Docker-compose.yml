@@ -3,44 +3,42 @@ version: "3.3"
 services:
 
   php:
-    image: php:latest
-    volumes:
-      - ./html/:/var/www/html/
+    image: php:fpm-alpine
     container_name: "php"
 
   apache:
     image: httpd:latest
     depends_on:
       - php
-      - mariadb
+      - mysql
     ports:
       - "80:80"
     volumes:
       - ./html/:/var/www/html/
     container_name: "apache"
 
-  mariadb:
-    image: mariadb:latest
+  mysql:
+    image: mysql:latest
     restart: always
     ports:
       - "3306:3306"
     volumes:
-      - ./mariadb:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "Sio2021-2023"
       MYSQL_DATABASE: "sidamon"
       MYSQL_USER: "sidamon"
       MYSQL_PASSWORD: "password"
-    container_name: "mariadb"
+    container_name: "mysql"
 
-  adminer:
-    image: adminer
+  phpmyadmin:
+    image: phpmyadmin:latest
     ports:
-      - 8080:8080
+      - "8080:8080"
     restart: always
-    container_name: "adminer"
+    container_name: "phpmyadmin"
     
-    node.js:
+  node.js:
     image: node:latest
     container_name: node.js
     restart: always
