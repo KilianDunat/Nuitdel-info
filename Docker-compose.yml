@@ -5,12 +5,11 @@ services:
   php:
     image: php:fpm-alpine
     container_name: "php"
+    depends_on:
+      - apache
 
   apache:
     image: httpd:latest
-    depends_on:
-      - php
-      - mysql
     ports:
       - "80:80"
     volumes:
@@ -30,6 +29,8 @@ services:
       MYSQL_USER: "sidamon"
       MYSQL_PASSWORD: "password"
     container_name: "mysql"
+    depends_on:
+      - php
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -37,11 +38,8 @@ services:
       - "8080:8080"
     restart: always
     container_name: "phpmyadmin"
-    
-  node.js:
-    image: node:latest
-    container_name: node.js
-    restart: always
+    depends_on:
+      - phpmyadmin
 
 networks:
     default:
