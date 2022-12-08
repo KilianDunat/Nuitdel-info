@@ -3,8 +3,10 @@ version: "3.3"
 services:
 
   php:
-    image: php:fpm-alpine
+    image: php:8.1-fpm
     container_name: "php"
+    volumes:
+      - ./web:/usr/local/apache2/htdocs
     depends_on:
       - apache
 
@@ -18,16 +20,10 @@ services:
 
   mysql:
     image: mysql:latest
-    restart: always
-    ports:
-      - "3306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "Sio2021-2023"
-      MYSQL_DATABASE: "sidamon"
-      MYSQL_USER: "sidamon"
-      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: "password"
     container_name: "mysql"
     depends_on:
       - php
@@ -36,7 +32,9 @@ services:
     image: phpmyadmin:latest
     ports:
       - "8080:8080"
-    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password
     container_name: "phpmyadmin"
     depends_on:
       - phpmyadmin
