@@ -2,14 +2,6 @@ version: "3.3"
 
 services:
 
-  php:
-    image: php:8.1-fpm
-    container_name: "php"
-    volumes:
-      - ./web:/usr/local/apache2/htdocs
-    depends_on:
-      - apache
-
   apache:
     image: httpd:latest
     ports:
@@ -17,6 +9,15 @@ services:
     volumes:
       - ./html/:/var/www/html/
     container_name: "apache"
+    depends_on:
+      - php
+  php:
+    image: php:8.1-fpm
+    container_name: "php"
+    volumes:
+      - ./web:/usr/local/apache2/htdocs
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:latest
@@ -26,7 +27,7 @@ services:
       MYSQL_ROOT_PASSWORD: "password"
     container_name: "mysql"
     depends_on:
-      - php
+      - phpmyadmin
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -36,8 +37,6 @@ services:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: password
     container_name: "phpmyadmin"
-    depends_on:
-      - phpmyadmin
 
 networks:
     default:
